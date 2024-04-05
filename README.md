@@ -3,6 +3,16 @@
 ## Overview:
 This project utilizes ***Azure Sentinel***, ***PowerShell***, and a ***third-party API*** to create a threat map. The map provides IP geolocation information extracted from logs of failed Remote Desktop Protocol (RDP) brute force attacks attempted on a live honeypot ***virtual machine (VM)***.
 
+## Skills learned:
+
+- Azure Sentinel
+- PowerShell
+- Honeypot Deployment and Management
+- Virtual Machine Deployment and Configuration
+- SIEM Tool Implementation
+- Log Analysis
+- Threat Analysis and Visualization
+
 ## Key tools and technologies:
 - **Azure Sentinel**: A SIEM tool from Microsoft that enables us to capture real-time analytics and map cyber-attacks.
 - **PowerShell**: A script designed to parse failed RDP attack logs from the Windows Event Viewer of the VM and interact with the IP geolocation API.
