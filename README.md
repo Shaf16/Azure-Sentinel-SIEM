@@ -29,4 +29,28 @@ This project utilizes ***Azure Sentinel***, ***PowerShell***, and a ***third-par
 
   Next, we connect to our honeypot VM and disable the firewall settings to ensure that the VM is open to the internet. We can verify this by pinging the IP address of the system through the command prompt in the VM.
 
-- ### Phase Three: 
+- ### Phase Three: Generating IP geolocation information from logs using PowerShell and third-party API
+
+  A [PowerShell script](https://github.com/Shaf16/Azure-Sentinel-SIEM/blob/main/PowerShell%20Script%20for%20exporting%20logs) is designed to parse failed RDP attack logs from the Windows Event Viewer of the VM, and enrich these logs with geographic information of the attackers using a third-party API ([ipgeolocation.io](https://ipgeolocation.io/)). This script plays a crucial role in visualizing the global origin of cyber-attacks, leveraging Azure Sentinel for real-time analysis and mapping.
+
+  The script operates in two parts; first, it scans the Windows event logs for failed RDP login attempts. For each failed attempt, it extracts the IP address of the potential attacker. Next, the script sends these IP addresses to the third-party API, which returns the geographical location corresponding to each IP address. The script logs this information for further analysis. Running this script in PowerShell automates the process of monitoring and logging the failed RDP attempts, along with the attacker's location.
+
+<p align="center">
+ <b> Snapshot of PowerShell script running with geolocation information as output</b>
+<br />
+  
+  <img src="https://github.com/Shaf16/Azure-Sentinel-SIEM/assets/95363766/127be571-ccb5-4077-b7f4-b2596e98f3d4" alt="PowerShell Script" width="85%" height="85%">
+</p>
+
+- ### Phase Four: Creating a custom log and setting up the Threat Map in Sentinel
+
+  A custom log is created in our Log Analytics workspace to link the failed RDP attack logs with geolocation information from our VM. Once the custom log is created and synced with the VM, we can view event viewer data displaying the failed RDP logs with geolocation details when querying the custom log in our workspace.
+
+  Next, we navigate to Azure Sentinel and create a new workbook to generate our threat map. Using Kusto Query Language (KQL) within the workbook, we write a [query](https://github.com/Shaf16/Azure-Sentinel-SIEM/blob/main/KQL%20Query%20for%20Threat%20Map) that selects failed RDP attempts and extracts the IP addresses and geographic locations associated with these attempts from our custom log. We configure the visualization setting to display a map, providing a visual representation of attacks on our honeypot VM mapped across the globe. Each point on the map represents a failed attempt to breach our system, offering valuable insights into the global distribution of threats.
+
+<p align="center">
+ <b> Threat Map showing the distribution of attacks</b>
+<br />
+
+  <img src="https://github.com/Shaf16/Azure-Sentinel-SIEM/assets/95363766/3a9dfcf5-8d76-4ed6-98da-ce6c4d44a7e7" alt="Threat Map" width="85%" height="85%">
+</p>
